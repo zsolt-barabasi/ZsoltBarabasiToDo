@@ -1,6 +1,8 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/react';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
@@ -12,7 +14,11 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
 
-        root.render(<App {...props} />);
+        root.render(
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <App {...props} />
+            </LocalizationProvider>,
+        );
     },
     progress: {
         color: '#4B5563',

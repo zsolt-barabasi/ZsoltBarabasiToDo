@@ -63,9 +63,9 @@ export function ToDoModal({ fetchTodos, todo, showModal, setShowModal }: ToDoMod
     return (
         <Box className="flex">
             <Tooltip title={'Create ToDo'} placement="right" arrow>
-                <IconButton onClick={() => setShowModal(true)} size="large">
-                    <PlaylistAddOutlinedIcon fontSize="large" />
-                </IconButton>
+                <Button variant="contained" onClick={() => setShowModal(true)} startIcon={<PlaylistAddOutlinedIcon />}>
+                    {'Create ToDo'}
+                </Button>
             </Tooltip>
             <Dialog onClose={closeHandler} open={showModal} className="relative">
                 <Tooltip title={'Close'} placement="left" arrow>

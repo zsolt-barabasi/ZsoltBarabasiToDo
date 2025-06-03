@@ -1,3 +1,4 @@
+import { DateFilter } from '@/components/DateFilter';
 import { ToDoModal } from '@/components/ToDoModal';
 import type { Todo } from '@/constants';
 import { ToDoPriority } from '@/constants';
@@ -10,6 +11,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function Todo({ todos }: { todos: Todo[] }) {
     const [todoList, setTodoList] = useState<Todo[]>(todos);
+    const [filteredList, setFilteredList] = useState<Todo[]>(todos);
     const [editingTodo, setEditingTodo] = useState<Todo>();
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -80,6 +82,8 @@ export default function Todo({ todos }: { todos: Todo[] }) {
                 field: 'created_at',
                 headerName: 'Created date',
                 flex: 1,
+                type: 'dateTime',
+                valueGetter: (value) => new Date(value),
             },
             {
                 field: 'actions',
@@ -112,8 +116,9 @@ export default function Todo({ todos }: { todos: Todo[] }) {
                     <Box className="flex justify-center align-middle">
                         <Typography variant="h4">{"Zsolt's ToDo list"}</Typography>
                     </Box>
+                    <DateFilter todoList={todoList} setFilteredList={setFilteredList} />
                     <DataGrid
-                        rows={todoList}
+                        rows={filteredList}
                         columns={columns}
                         initialState={{
                             pagination: {
@@ -124,6 +129,13 @@ export default function Todo({ todos }: { todos: Todo[] }) {
                         }}
                         pageSizeOptions={[10]}
                         disableRowSelectionOnClick
+                        showToolbar
+                        slotProps={{
+                            toolbar: {
+                                csvOptions: { disableToolbarButton: true },
+                                printOptions: { disableToolbarButton: true },
+                            },
+                        }}
                     />
                 </Box>
                 <ToDoModal fetchTodos={fetchTodos} todo={editingTodo} showModal={showModal} setShowModal={setShowModal} />
